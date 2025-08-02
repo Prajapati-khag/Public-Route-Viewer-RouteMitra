@@ -1,0 +1,358 @@
+{
+  "routes": [
+    {
+      "id": 1,
+      "number": "101",
+      "name": "Jashpur to Bilaspur",
+      "origin": "Jashpur",
+      "destination": "Bilaspur",
+      "distance": "180 km",
+      "duration": "4h 30m",
+      "frequency": "Every 60 minutes",
+      "type": "Bus",
+      "color": "#e53935",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "05:00 AM", "departure": "05:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Kunkuri Stop", "arrival": "05:45 AM", "departure": "05:50 AM", "lat": 22.925, "lng": 83.02},
+        {"id": 3, "name": "Pathalgaon Stop", "arrival": "06:30 AM", "departure": "06:35 AM", "lat": 22.85, "lng": 82.95},
+        {"id": 4, "name": "Katghora Stop", "arrival": "07:45 AM", "departure": "07:50 AM", "lat": 22.5, "lng": 82.55},
+        {"id": 5, "name": "Bilaspur Central", "arrival": "09:30 AM", "departure": "09:30 AM", "lat": 22.0735, "lng": 82.1564}
+      ],
+      "timetable": [
+        {"departure": "05:00 AM", "arrival": "09:30 AM", "duration": "4h 30m", "frequency": "Daily", "fare": 350},
+        {"departure": "07:00 AM", "arrival": "11:30 AM", "duration": "4h 30m", "frequency": "Daily", "fare": 350},
+        {"departure": "09:00 AM", "arrival": "01:30 PM", "duration": "4h 30m", "frequency": "Daily", "fare": 350},
+        {"departure": "11:00 AM", "arrival": "03:30 PM", "duration": "4h 30m", "frequency": "Daily", "fare": 350},
+        {"departure": "01:00 PM", "arrival": "05:30 PM", "duration": "4h 30m", "frequency": "Daily", "fare": 350}
+      ]
+    },
+    {
+      "id": 2,
+      "number": "102",
+      "name": "Jashpur to Raipur",
+      "origin": "Jashpur",
+      "destination": "Raipur",
+      "distance": "320 km",
+      "duration": "6h 15m",
+      "frequency": "Every 90 minutes",
+      "type": "Bus",
+      "color": "#43a047",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "06:00 AM", "departure": "06:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Pathalgaon Stop", "arrival": "06:45 AM", "departure": "06:50 AM", "lat": 22.85, "lng": 82.95},
+        {"id": 3, "name": "Baikunthpur Stop", "arrival": "08:15 AM", "departure": "08:20 AM", "lat": 23.25, "lng": 82.55},
+        {"id": 4, "name": "Surajpur Stop", "arrival": "09:45 AM", "departure": "09:50 AM", "lat": 23.21, "lng": 82.85},
+        {"id": 5, "name": "Bhatapara Stop", "arrival": "11:30 AM", "departure": "11:35 AM", "lat": 21.73, "lng": 81.95},
+        {"id": 6, "name": "Raipur Central", "arrival": "12:15 PM", "departure": "12:15 PM", "lat": 21.2514, "lng": 81.6296}
+      ],
+      "timetable": [
+        {"departure": "06:00 AM", "arrival": "12:15 PM", "duration": "6h 15m", "frequency": "Daily", "fare": 450},
+        {"departure": "07:30 AM", "arrival": "01:45 PM", "duration": "6h 15m", "frequency": "Daily", "fare": 450},
+        {"departure": "09:00 AM", "arrival": "03:15 PM", "duration": "6h 15m", "frequency": "Daily", "fare": 450},
+        {"departure": "10:30 AM", "arrival": "04:45 PM", "duration": "6h 15m", "frequency": "Daily", "fare": 450}
+      ]
+    },
+    {
+      "id": 3,
+      "number": "103",
+      "name": "Jashpur to Ranchi",
+      "origin": "Jashpur",
+      "destination": "Ranchi",
+      "distance": "280 km",
+      "duration": "5h 45m",
+      "frequency": "Every 120 minutes",
+      "type": "Bus",
+      "color": "#1e88e5",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "05:30 AM", "departure": "05:30 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Kunkuri Stop", "arrival": "06:15 AM", "departure": "06:20 AM", "lat": 22.925, "lng": 83.02},
+        {"id": 3, "name": "Gumla Stop", "arrival": "08:30 AM", "departure": "08:35 AM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 4, "name": "Lohardaga Stop", "arrival": "09:45 AM", "departure": "09:50 AM", "lat": 23.43, "lng": 84.68},
+        {"id": 5, "name": "Ranchi Central", "arrival": "11:15 AM", "departure": "11:15 AM", "lat": 23.3441, "lng": 85.3096}
+      ],
+      "timetable": [
+        {"departure": "05:30 AM", "arrival": "11:15 AM", "duration": "5h 45m", "frequency": "Daily", "fare": 400},
+        {"departure": "07:30 AM", "arrival": "01:15 PM", "duration": "5h 45m", "frequency": "Daily", "fare": 400},
+        {"departure": "09:30 AM", "arrival": "03:15 PM", "duration": "5h 45m", "frequency": "Daily", "fare": 400},
+        {"departure": "11:30 AM", "arrival": "05:15 PM", "duration": "5h 45m", "frequency": "Daily", "fare": 400}
+      ]
+    },
+    {
+      "id": 4,
+      "number": "104",
+      "name": "Jashpur to Ambikapur",
+      "origin": "Jashpur",
+      "destination": "Ambikapur",
+      "distance": "120 km",
+      "duration": "3h 00m",
+      "frequency": "Every 45 minutes",
+      "type": "Bus",
+      "color": "#8e24aa",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "07:00 AM", "departure": "07:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Bagicha Stop", "arrival": "07:45 AM", "departure": "07:50 AM", "lat": 22.98, "lng": 83.18},
+        {"id": 3, "name": "Mainpat Stop", "arrival": "08:30 AM", "departure": "08:35 AM", "lat": 22.78, "lng": 83.43},
+        {"id": 4, "name": "Ambikapur Central", "arrival": "10:00 AM", "departure": "10:00 AM", "lat": 23.1200, "lng": 83.1950}
+      ],
+      "timetable": [
+        {"departure": "07:00 AM", "arrival": "10:00 AM", "duration": "3h", "frequency": "Daily", "fare": 250},
+        {"departure": "08:00 AM", "arrival": "11:00 AM", "duration": "3h", "frequency": "Daily", "fare": 250},
+        {"departure": "09:00 AM", "arrival": "12:00 PM", "duration": "3h", "frequency": "Daily", "fare": 250},
+        {"departure": "10:00 AM", "arrival": "01:00 PM", "duration": "3h", "frequency": "Daily", "fare": 250}
+      ]
+    },
+    {
+      "id": 5,
+      "number": "105",
+      "name": "Jashpur to Raigarh",
+      "origin": "Jashpur",
+      "destination": "Raigarh",
+      "distance": "150 km",
+      "duration": "3h 30m",
+      "frequency": "Every 90 minutes",
+      "type": "Bus",
+      "color": "#f4511e",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "08:00 AM", "departure": "08:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Duldula Stop", "arrival": "08:45 AM", "departure": "08:50 AM", "lat": 22.75, "lng": 83.25},
+        {"id": 3, "name": "Gharghoda Stop", "arrival": "09:30 AM", "departure": "09:35 AM", "lat": 22.65, "lng": 83.35},
+        {"id": 4, "name": "Raigarh Central", "arrival": "11:30 AM", "departure": "11:30 AM", "lat": 21.8974, "lng": 83.3960}
+      ],
+      "timetable": [
+        {"departure": "08:00 AM", "arrival": "11:30 AM", "duration": "3h 30m", "frequency": "Daily", "fare": 280},
+        {"departure": "09:30 AM", "arrival": "01:00 PM", "duration": "3h 30m", "frequency": "Daily", "fare": 280},
+        {"departure": "11:00 AM", "arrival": "02:30 PM", "duration": "3h 30m", "frequency": "Daily", "fare": 280},
+        {"departure": "12:30 PM", "arrival": "04:00 PM", "duration": "3h 30m", "frequency": "Daily", "fare": 280}
+      ]
+    },
+    {
+      "id": 6,
+      "number": "106",
+      "name": "Jashpur to Korba",
+      "origin": "Jashpur",
+      "destination": "Korba",
+      "distance": "190 km",
+      "duration": "4h 15m",
+      "frequency": "Every 120 minutes",
+      "type": "Bus",
+      "color": "#039be5",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "06:30 AM", "departure": "06:30 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Pathalgaon Stop", "arrival": "07:15 AM", "departure": "07:20 AM", "lat": 22.85, "lng": 82.95},
+        {"id": 3, "name": "Katghora Stop", "arrival": "08:45 AM", "departure": "08:50 AM", "lat": 22.5, "lng": 82.55},
+        {"id": 4, "name": "Pali Stop", "arrival": "09:30 AM", "departure": "09:35 AM", "lat": 22.35, "lng": 82.65},
+        {"id": 5, "name": "Korba Central", "arrival": "10:45 AM", "departure": "10:45 AM", "lat": 22.3458, "lng": 82.6963}
+      ],
+      "timetable": [
+        {"departure": "06:30 AM", "arrival": "10:45 AM", "duration": "4h 15m", "frequency": "Daily", "fare": 320},
+        {"departure": "08:30 AM", "arrival": "12:45 PM", "duration": "4h 15m", "frequency": "Daily", "fare": 320},
+        {"departure": "10:30 AM", "arrival": "02:45 PM", "duration": "4h 15m", "frequency": "Daily", "fare": 320},
+        {"departure": "12:30 PM", "arrival": "04:45 PM", "duration": "4h 15m", "frequency": "Daily", "fare": 320}
+      ]
+    },
+    {
+      "id": 7,
+      "number": "107",
+      "name": "Jashpur to Varanasi via Ambikapur",
+      "origin": "Jashpur",
+      "destination": "Varanasi",
+      "distance": "480 km",
+      "duration": "10h 00m",
+      "frequency": "Twice Daily",
+      "type": "Bus",
+      "color": "#7cb342",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "06:00 AM", "departure": "06:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Ambikapur Central", "arrival": "09:00 AM", "departure": "09:15 AM", "lat": 23.1200, "lng": 83.1950},
+        {"id": 3, "name": "Renukoot Stop", "arrival": "12:30 PM", "departure": "12:45 PM", "lat": 24.2, "lng": 83.03},
+        {"id": 4, "name": "Mirzapur Stop", "arrival": "03:30 PM", "departure": "03:45 PM", "lat": 25.15, "lng": 82.58},
+        {"id": 5, "name": "Varanasi Central", "arrival": "04:00 PM", "departure": "04:00 PM", "lat": 25.3176, "lng": 82.9739}
+      ],
+      "timetable": [
+        {"departure": "06:00 AM", "arrival": "04:00 PM", "duration": "10h", "frequency": "Daily", "fare": 650},
+        {"departure": "08:00 PM", "arrival": "06:00 AM", "duration": "10h", "frequency": "Daily", "fare": 650}
+      ]
+    },
+    {
+      "id": 8,
+      "number": "108",
+      "name": "Raipur to Ranchi via Jashpur",
+      "origin": "Raipur",
+      "destination": "Ranchi",
+      "distance": "420 km",
+      "duration": "8h 30m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#5e35b1",
+      "stops": [
+        {"id": 1, "name": "Raipur Central", "arrival": "06:00 AM", "departure": "06:00 AM", "lat": 21.2514, "lng": 81.6296},
+        {"id": 2, "name": "Bhatapara Stop", "arrival": "07:45 AM", "departure": "07:50 AM", "lat": 21.73, "lng": 81.95},
+        {"id": 3, "name": "Surajpur Stop", "arrival": "09:30 AM", "departure": "09:35 AM", "lat": 23.21, "lng": 82.85},
+        {"id": 4, "name": "Jashpur Bus Stand", "arrival": "12:30 PM", "departure": "12:45 PM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 5, "name": "Gumla Stop", "arrival": "03:00 PM", "departure": "03:15 PM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 6, "name": "Ranchi Central", "arrival": "02:30 PM", "departure": "02:30 PM", "lat": 23.3441, "lng": 85.3096}
+      ],
+      "timetable": [
+        {"departure": "06:00 AM", "arrival": "02:30 PM", "duration": "8h 30m", "frequency": "Daily", "fare": 550}
+      ]
+    },
+    {
+      "id": 9,
+      "number": "109",
+      "name": "Bilaspur to Ranchi via Jashpur",
+      "origin": "Bilaspur",
+      "destination": "Ranchi",
+      "distance": "380 km",
+      "duration": "8h 00m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#00897b",
+      "stops": [
+        {"id": 1, "name": "Bilaspur Central", "arrival": "06:00 AM", "departure": "06:00 AM", "lat": 22.0735, "lng": 82.1564},
+        {"id": 2, "name": "Katghora Stop", "arrival": "07:00 AM", "departure": "07:05 AM", "lat": 22.5, "lng": 82.55},
+        {"id": 3, "name": "Pathalgaon Stop", "arrival": "08:30 AM", "departure": "08:35 AM", "lat": 22.85, "lng": 82.95},
+        {"id": 4, "name": "Jashpur Bus Stand", "arrival": "10:00 AM", "departure": "10:15 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 5, "name": "Gumla Stop", "arrival": "12:30 PM", "departure": "12:45 PM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 6, "name": "Ranchi Central", "arrival": "02:00 PM", "departure": "02:00 PM", "lat": 23.3441, "lng": 85.3096}
+      ],
+      "timetable": [
+        {"departure": "06:00 AM", "arrival": "02:00 PM", "duration": "8h", "frequency": "Daily", "fare": 500}
+      ]
+    },
+    {
+      "id": 10,
+      "number": "110",
+      "name": "Raigarh to Patna via Jashpur",
+      "origin": "Raigarh",
+      "destination": "Patna",
+      "distance": "620 km",
+      "duration": "14h 00m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#e53935",
+      "stops": [
+        {"id": 1, "name": "Raigarh Central", "arrival": "07:00 PM", "departure": "07:00 PM", "lat": 21.8974, "lng": 83.3960},
+        {"id": 2, "name": "Jashpur Bus Stand", "arrival": "10:00 PM", "departure": "10:15 PM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 3, "name": "Gumla Stop", "arrival": "01:00 AM", "departure": "01:15 AM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 4, "name": "Ranchi Central", "arrival": "03:00 AM", "departure": "03:15 AM", "lat": 23.3441, "lng": 85.3096},
+        {"id": 5, "name": "Hazaribagh Stop", "arrival": "05:30 AM", "departure": "05:45 AM", "lat": 24.0, "lng": 85.35},
+        {"id": 6, "name": "Gaya Stop", "arrival": "08:30 AM", "departure": "08:45 AM", "lat": 24.79, "lng": 85.0},
+        {"id": 7, "name": "Patna Central", "arrival": "09:00 AM", "departure": "09:00 AM", "lat": 25.5941, "lng": 85.1376}
+      ],
+      "timetable": [
+        {"departure": "07:00 PM", "arrival": "09:00 AM", "duration": "14h", "frequency": "Daily", "fare": 850}
+      ]
+    },
+    {
+      "id": 11,
+      "number": "111",
+      "name": "Manendragarh to Ranchi via Jashpur",
+      "origin": "Manendragarh",
+      "destination": "Ranchi",
+      "distance": "310 km",
+      "duration": "7h 30m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#43a047",
+      "stops": [
+        {"id": 1, "name": "Manendragarh Bus Stand", "arrival": "05:00 AM", "departure": "05:00 AM", "lat": 23.2026, "lng": 82.1997},
+        {"id": 2, "name": "Baikunthpur Stop", "arrival": "06:30 AM", "departure": "06:35 AM", "lat": 23.25, "lng": 82.55},
+        {"id": 3, "name": "Jashpur Bus Stand", "arrival": "08:00 AM", "departure": "08:15 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 4, "name": "Gumla Stop", "arrival": "10:30 AM", "departure": "10:45 AM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 5, "name": "Ranchi Central", "arrival": "12:30 PM", "departure": "12:30 PM", "lat": 23.3441, "lng": 85.3096}
+      ],
+      "timetable": [
+        {"departure": "05:00 AM", "arrival": "12:30 PM", "duration": "7h 30m", "frequency": "Daily", "fare": 420}
+      ]
+    },
+    {
+      "id": 12,
+      "number": "112",
+      "name": "Chirmiri to Ranchi via Jashpur",
+      "origin": "Chirmiri",
+      "destination": "Ranchi",
+      "distance": "300 km",
+      "duration": "7h 15m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#1e88e5",
+      "stops": [
+        {"id": 1, "name": "Chirmiri Bus Stand", "arrival": "05:30 AM", "departure": "05:30 AM", "lat": 23.2026, "lng": 82.3397},
+        {"id": 2, "name": "Baikunthpur Stop", "arrival": "06:45 AM", "departure": "06:50 AM", "lat": 23.25, "lng": 82.55},
+        {"id": 3, "name": "Jashpur Bus Stand", "arrival": "08:15 AM", "departure": "08:30 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 4, "name": "Gumla Stop", "arrival": "10:45 AM", "departure": "11:00 AM", "lat": 23.0415, "lng": 84.5433},
+        {"id": 5, "name": "Ranchi Central", "arrival": "12:45 PM", "departure": "12:45 PM", "lat": 23.3441, "lng": 85.3096}
+      ],
+      "timetable": [
+        {"departure": "05:30 AM", "arrival": "12:45 PM", "duration": "7h 15m", "frequency": "Daily", "fare": 400}
+      ]
+    },
+    {
+      "id": 13,
+      "number": "113",
+      "name": "Jashpur to Durg",
+      "origin": "Jashpur",
+      "destination": "Durg",
+      "distance": "350 km",
+      "duration": "7h 00m",
+      "frequency": "Twice Daily",
+      "type": "Bus",
+      "color": "#8e24aa",
+      "stops": [
+        {"id": 1, "name": "Jashpur Bus Stand", "arrival": "06:00 AM", "departure": "06:00 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 2, "name": "Pathalgaon Stop", "arrival": "06:45 AM", "departure": "06:50 AM", "lat": 22.85, "lng": 82.95},
+        {"id": 3, "name": "Baikunthpur Stop", "arrival": "08:15 AM", "departure": "08:20 AM", "lat": 23.25, "lng": 82.55},
+        {"id": 4, "name": "Raipur Central", "arrival": "11:00 AM", "departure": "11:15 AM", "lat": 21.2514, "lng": 81.6296},
+        {"id": 5, "name": "Durg Central", "arrival": "01:00 PM", "departure": "01:00 PM", "lat": 21.1904, "lng": 81.2849}
+      ],
+      "timetable": [
+        {"departure": "06:00 AM", "arrival": "01:00 PM", "duration": "7h", "frequency": "Daily", "fare": 480},
+        {"departure": "02:00 PM", "arrival": "09:00 PM", "duration": "7h", "frequency": "Daily", "fare": 480}
+      ]
+    },
+    {
+      "id": 14,
+      "number": "114",
+      "name": "Ambikapur to Gumla via Jashpur",
+      "origin": "Ambikapur",
+      "destination": "Gumla",
+      "distance": "200 km",
+      "duration": "5h 30m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#f4511e",
+      "stops": [
+        {"id": 1, "name": "Ambikapur Central", "arrival": "07:00 AM", "departure": "07:00 AM", "lat": 23.1200, "lng": 83.1950},
+        {"id": 2, "name": "Mainpat Stop", "arrival": "08:15 AM", "departure": "08:20 AM", "lat": 22.78, "lng": 83.43},
+        {"id": 3, "name": "Bagicha Stop", "arrival": "09:30 AM", "departure": "09:35 AM", "lat": 22.98, "lng": 83.18},
+        {"id": 4, "name": "Jashpur Bus Stand", "arrival": "10:30 AM", "departure": "10:45 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 5, "name": "Gumla Central", "arrival": "12:30 PM", "departure": "12:30 PM", "lat": 23.0415, "lng": 84.5433}
+      ],
+      "timetable": [
+        {"departure": "07:00 AM", "arrival": "12:30 PM", "duration": "5h 30m", "frequency": "Daily", "fare": 350}
+      ]
+    },
+    {
+      "id": 15,
+      "number": "115",
+      "name": "Raigarh to Gumla via Jashpur",
+      "origin": "Raigarh",
+      "destination": "Gumla",
+      "distance": "260 km",
+      "duration": "6h 15m",
+      "frequency": "Daily",
+      "type": "Bus",
+      "color": "#039be5",
+      "stops": [
+        {"id": 1, "name": "Raigarh Central", "arrival": "06:30 AM", "departure": "06:30 AM", "lat": 21.8974, "lng": 83.3960},
+        {"id": 2, "name": "Gharghoda Stop", "arrival": "07:45 AM", "departure": "07:50 AM", "lat": 22.65, "lng": 83.35},
+        {"id": 3, "name": "Duldula Stop", "arrival": "08:45 AM", "departure": "08:50 AM", "lat": 22.75, "lng": 83.25},
+        {"id": 4, "name": "Jashpur Bus Stand", "arrival": "10:00 AM", "departure": "10:15 AM", "lat": 22.8998, "lng": 83.1396},
+        {"id": 5, "name": "Gumla Central", "arrival": "12:45 PM", "departure": "12:45 PM", "lat": 23.0415, "lng": 84.5433}
+      ],
+      "timetable": [
+        {"departure": "06:30 AM", "arrival": "12:45 PM", "duration": "6h 15m", "frequency": "Daily", "fare": 380}
+      ]
+    }
+  ]
+}
