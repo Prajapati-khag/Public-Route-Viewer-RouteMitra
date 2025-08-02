@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RouteMitra - Public Transport Simplified</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Light Theme */
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc04;
+            --warning-color: #ea4335;
+            --background-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #202124;
+            --text-secondary: #5f6368;
+            --border-color: #dadce0;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            
+            /* Fonts */
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --primary-color: #8ab4f8;
+            --secondary-color: #81c995;
+            --accent-color: #fdd663;
+            --warning-color: #f28b82;
+            --background-color: #202124;
+            --card-bg: #303134;
+            --text-color: #e8eaed;
+            --text-secondary: #9aa0a6;
+            --border-color: #5f6368;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, 
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .language-selector select {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        #darkModeToggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        #darkModeToggle:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-container button {
+            background-color: var(--accent-color);
+            color: #202124;
+            border: none;
+            padding: 0 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #e6ac00;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), #6aa2f1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+        }
+
+        /* Nearby Stops Section */
+        .nearby-stops {
+            padding: 60px 0;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .nearby-stops .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        #refreshLocation {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+
+        #refreshLocation:hover {
+            background-color: #0d62c9;
+        }
+
+        .stops-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .stop-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .stop-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .stop-card p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .routes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .route-badge {
+            background-color: rgba(52, 168, 83, 0.1);
+            color: var(--secondary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Interactive Map Section */
+        .interactive-map {
+            padding: 60px 0;
+        }
+
+        .map-container {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        #mainMap {
+            height: 100%;
+            width: 100%;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: var(--shadow);
+        }
+
+        .map-controls button {
+            display: block;
+            width: 100%;
+            padding: 8px 15px;
+            margin-bottom: 5px;
+            border: none;
+            border-radius: 4px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .map-controls button:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Routes Section */
+        .routes-section {
+            padding: 60px 0;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .routes-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .route-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .route-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .route-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), #6aa2f1);
+            color: white;
+        }
+
+        .route-number {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .route-details {
+            padding: 20px;
+        }
+
+        .route-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-item i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .route-stops {
+            margin-bottom: 15px;
+        }
+
+        .route-stops p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .route-card button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .route-card button:hover {
+            background-color: #2d8f47;
+        }
+
+        /* Timetable Section */
+        .timetable-section {
+            padding: 60px 0;
+        }
+
+        .timetable-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .timetable-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .timetable-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .timetable-table th,
+        .timetable-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .timetable-table th {
+            background-color: rgba(0, 0, 0, 0.03);
+            font-weight: 600;
+        }
+
+        .timetable-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            padding: 60px 0;
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .booking-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .booking-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .booking-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 0;
+        }
+
+        .step {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--border-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .step.active .step-circle {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+        }
+
+        .booking-form {
+            margin-top: 30px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .passenger-list {
+            margin: 20px 0;
+        }
+
+        .passenger-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .passenger-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d62c9;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #2d8f47;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(26, 115, 232, 0.1);
+        }
+
+        /* Admin Section */
+        .admin-section {
+            padding: 60px 0;
+        }
+
+        .admin-container {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .route-form {
+            margin-top: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .stops-list {
+            margin-top: 20px;
+        }
+
+        .stop-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stop-drag {
+            cursor: move;
+            color: var(--text-secondary);
+        }
+
+        .stop-actions {
+            margin-left: auto;
+        }
+
+        .stop-actions button {
+            background: none;
+            border: none;
+            color: var(--warning-color);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 60px 0 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 15px;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+        }
+
+        .footer-links h4, 
+        .footer-contact h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--card-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-container input,
+            .search-container button {
+                width: 100%;
+                padding: 15px;
+                border-radius: 0;
+            }
+            
+            .features {
+                padding: 60px 0;
+            }
+            
+            .nearby-stops .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-header h3 {
+                font-size: 1.6rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .booking-steps {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .booking-steps::before {
+                display: none;
+            }
+            
+            .step {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .step-circle {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-bus"></i>
+                <h1>RouteMitra</h1>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#routes">Routes</a></li>
+                    <li><a href="#timetable">Timetable</a></li>
+                    <li><a href="#booking">Book Ticket</a></li>
+                    <li><a href="#admin">Admin</a></li>
+                    <li><a href="index.html" class="active">Contact</a></li>
+                </ul>
+                <div class="header-controls">
+                    <div class="language-selector">
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="hi">हिंदी</option>
+                        </select>
+                    </div>
+                    <button id="darkModeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </nav>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 data-i18n="hero_title">Your Journey, Simplified</h2>
+                <p data-i18n="hero_subtitle">See every route, miss no bus. Your reliable public transport companion for seamless city travel.</p>
+                
+                <div class="search-container">
+                    <input type="text" placeholder="Search by route number or location...">
+                    <button><i class="fas fa-search"></i> <span data-i18n="search">Search</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="features_title">Key Features</h3>
+                <p data-i18n="features_subtitle">Everything you need for smooth travel</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h4 data-i18n="feature1_title">Route Maps</h4>
+                    <p data-i18n="feature1_desc">Detailed maps for all routes with stop locations</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4 data-i18n="feature2_title">Real-time Tracking</h4>
+                    <p data-i18n="feature2_desc">Live bus locations and arrival estimates</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h4 data-i18n="feature3_title">Book Tickets</h4>
+                    <p data-i18n="feature3_desc">Secure online ticket booking system</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4 data-i18n="feature4_title">Mobile Friendly</h4>
+                    <p data-i18n="feature4_desc">Works perfectly on all devices</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nearby Stops Section -->
+    <section class="nearby-stops">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="nearby_title">Nearby Bus Stops</h3>
+                <button id="refreshLocation"><i class="fas fa-sync-alt"></i> <span data-i18n="refresh">Refresh</span></button>
+            </div>
+            
+            <div class="stops-container">
+                <div class="stop-card">
+                    <h4>Jashpur Bus Stand</h4>
+                    <p><i class="fas fa-road"></i> <span data-i18n="distance">0.5 km away</span></p>
+                    <div class="routes">
+                        <span class="route-badge">Jashpur to Bilaspur</span>
+                        <span class="route-badge">Jashpur to Raipur</span>
+                    </div>
+                </div>
+                
+                <div class="stop-card">
+                    <h4>Main Market Stop</h4>
+                    <p><i class="fas fa-road"></i> <span data-i18n="distance">0.8 km away</span></p>
+                    <div class="routes">
+                        <span class="route-badge">Jashpur to Ranchi</span>
+                        <span class="route-badge">Jashpur to Ambikapur</span>
+                    </div>
+                </div>
+                
+                <div class="stop-card">
+                    <h4>City Center Stop</h4>
+                    <p><i class="fas fa-road"></i> <span data-i18n="distance">1.2 km away</span></p>
+                    <div class="routes">
+                        <span class="route-badge">Jashpur to Korba</span>
+                        <span class="route-badge">Jashpur to Varanasi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="interactive-map">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="map_title">Interactive Route Map</h3>
+                <p data-i18n="map_subtitle">Explore all routes and stops</p>
+            </div>
+            
+            <div class="map-container">
+                <div id="mainMap"></div>
+                <div class="map-controls">
+                    <button id="showAllRoutes" data-i18n="show_all_routes">Show All Routes</button>
+                    <button id="findNearby" data-i18n="find_nearby">Find Nearby Stops</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Routes Section -->
+    <section id="routes" class="routes-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="routes_title">Available Routes</h3>
+                <p data-i18n="routes_subtitle">Explore all bus routes in Chhattisgarh</p>
+            </div>
+            
+            <div class="routes-filters">
+                <div class="filter-group">
+                    <label data-i18n="filter_route">Filter by Route</label>
+                    <input type="text" placeholder="Search route...">
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="filter_origin">Filter by Origin</label>
+                    <select>
+                        <option value="" data-i18n="all_origins">All Origins</option>
+                        <option>Jashpur</option>
+                        <option>Raipur</option>
+                        <option>Bilaspur</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label data-i18n="filter_destination">Filter by Destination</label>
+                    <select>
+                        <option value="" data-i18n="all_destinations">All Destinations</option>
+                        <option>Bilaspur</option>
+                        <option>Raipur</option>
+                        <option>Ranchi</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="routes-grid">
+                <!-- Route cards will be generated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Timetable Section -->
+    <section id="timetable" class="timetable-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="timetable_title">Bus Timetable</h3>
+                <p data-i18n="timetable_subtitle">Schedule for Jashpur to Bilaspur (Route #101)</p>
+            </div>
+            
+            <div class="timetable-container">
+                <div class="timetable-header">
+                    <div>
+                        <h4>Jashpur to Bilaspur</h4>
+                        <p>Route #101 | Total Distance: 180 km</p>
+                    </div>
+                    <button class="btn btn-outline"><i class="fas fa-download"></i> Download Timetable</button>
+                </div>
+                
+                <table class="timetable-table">
+                    <thead>
+                        <tr>
+                            <th data-i18n="departure">Departure</th>
+                            <th data-i18n="arrival">Arrival</th>
+                            <th data-i18n="duration">Duration</th>
+                            <th data-i18n="frequency">Frequency</th>
+                            <th data-i18n="fare">Fare (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>05:00 AM</td>
+                            <td>09:30 AM</td>
+                            <td>4h 30m</td>
+                            <td>Daily</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>07:00 AM</td>
+                            <td>11:30 AM</td>
+                            <td>4h 30m</td>
+                            <td>Daily</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>09:00 AM</td>
+                            <td>01:30 PM</td>
+                            <td>4h 30m</td>
+                            <td>Daily</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>11:00 AM</td>
+                            <td>03:30 PM</td>
+                            <td>4h 30m</td>
+                            <td>Daily</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>01:00 PM</td>
+                            <td>05:30 PM</td>
+                            <td>4h 30m</td>
+                            <td>Daily</td>
+                            <td>350</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="booking_title">Book Your Ticket</h3>
+                <p data-i18n="booking_subtitle">Secure your seat in just a few steps</p>
+            </div>
+            
+            <div class="booking-container">
+                <div class="booking-steps">
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                        <div class="step-label" data-i18n="step1">Route & Date</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                        <div class="step-label" data-i18n="step2">Passengers</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <div class="step-label" data-i18n="step3">Payment</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">4</div>
+                        <div class="step-label" data-i18n="step4">Confirmation</div>
+                    </div>
+                </div>
+                
+                <div class="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="origin" data-i18n="origin">From</label>
+                            <select id="origin">
+                                <option>Jashpur</option>
+                                <option>Raipur</option>
+                                <option>Bilaspur</option>
+                                <option>Ranchi</option>
+                                <option>Ambikapur</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination" data-i18n="destination">To</label>
+                            <select id="destination">
+                                <option>Bilaspur</option>
+                                <option>Jashpur</option>
+                                <option>Raipur</option>
+                                <option>Ranchi</option>
+                                <option>Ambikapur</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="travelDate" data-i18n="travel_date">Travel Date</label>
+                            <input type="date" id="travelDate">
+                        </div>
+                        <div class="form-group">
+                            <label for="passengers" data-i18n="passengers">Passengers</label>
+                            <select id="passengers">
+                                <option>1 Passenger</option>
+                                <option>2 Passengers</option>
+                                <option>3 Passengers</option>
+                                <option>4 Passengers</option>
+                                <option>5 Passengers</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="passenger-actions">
+                        <button class="btn btn-primary" data-i18n="search_buses">Search Buses</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Section -->
+    <section id="admin" class="admin-section">
+        <div class="container">
+            <div class="section-header">
+                <h3 data-i18n="admin_title">Route Management</h3>
+                <p data-i18n="admin_subtitle">For bus operators and administrators</p>
+            </div>
+            
+            <div class="admin-container">
+                <div class="admin-header">
+                    <h4 data-i18n="manage_routes">Manage Routes</h4>
+                    <button class="btn btn-primary" id="addRouteBtn" data-i18n="add_route">Add New Route</button>
+                </div>
+                
+                <div class="admin-tabs">
+                    <div class="tab active" data-tab="routes" data-i18n="all_routes">All Routes</div>
+                    <div class="tab" data-tab="add" data-i18n="add_route">Add Route</div>
+                    <div class="tab" data-tab="manage" data-i18n="manage_stops">Manage Stops</div>
+                </div>
+                
+                <div class="tab-content active" id="routesTab">
+                    <div class="routes-grid">
+                        <!-- Admin route cards will be generated dynamically -->
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="addRouteTab">
+                    <div class="route-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="routeNumber" data-i18n="route_number">Route Number</label>
+                                <input type="text" id="routeNumber">
+                            </div>
+                            <div class="form-group">
+                                <label for="routeName" data-i18n="route_name">Route Name</label>
+                                <input type="text" id="routeName">
+                            </div>
+                            <div class="form-group">
+                                <label for="originAdmin" data-i18n="origin">Origin</label>
+                                <input type="text" id="originAdmin">
+                            </div>
+                            <div class="form-group">
+                                <label for="destinationAdmin" data-i18n="destination">Destination</label>
+                                <input type="text" id="destinationAdmin">
+                            </div>
+                            <div class="form-group">
+                                <label for="distance" data-i18n="distance">Distance (km)</label>
+                                <input type="number" id="distance">
+                            </div>
+                            <div class="form-group">
+                                <label for="duration" data-i18n="duration">Duration</label>
+                                <input type="text" id="duration" placeholder="e.g. 4h 30m">
+                            </div>
+                        </div>
+                        
+                        <div class="stops-list">
+                            <h5 data-i18n="add_stops">Add Stops</h5>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="stopName" placeholder="Stop name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="stopTime" placeholder="Arrival time">
+                                </div>
+                                <button class="btn btn-outline" id="addStopBtn"><i class="fas fa-plus"></i> <span data-i18n="add_stop">Add Stop</span></button>
+                            </div>
+                            
+                            <div id="stopsContainer">
+                                <!-- Stops will be added here -->
+                            </div>
+                        </div>
+                        
+                        <div class="passenger-actions">
+                            <button class="btn btn-primary" data-i18n="save_route">Save Route</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-bus"></i>
+                        <h3>RouteMitra</h3>
+                    </div>
+                    <p data-i18n="footer_desc">Your reliable companion for navigating city public transport with ease and confidence. Never miss a bus again!</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 data-i18n="quick_links">Quick Links</h4>
+                    <ul>
+                        <li><a href="#" data-i18n="home">Home</a></li>
+                        <li><a href="#routes" data-i18n="routes">Routes</a></li>
+                        <li><a href="#timetable" data-i18n="timetable">Timetable</a></li>
+                        <li><a href="#booking" data-i18n="book_ticket">Book Ticket</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 data-i18n="contact_us">Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> info@routemitra.com</p>
+                    <p><i class="fas fa-envelop"></i> support@routemitra.com</p>
+                    <p><i class="fas fa-phone"></i> +91 12345 67890</p>
+                    
+                
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 RouteMitra. <span data-i18n="all_rights">All rights reserved.</span></p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Sample route data
+        const routes = [
+            { id: 1, number: "101", name: "Jashpur to Bilaspur", origin: "Jashpur", destination: "Bilaspur", distance: "180 km", duration: "4h 30m", frequency: "Every 60 min", stops: 12 },
+            { id: 2, number: "102", name: "Jashpur to Raipur", origin: "Jashpur", destination: "Raipur", distance: "320 km", duration: "6h 15m", frequency: "Every 90 min", stops: 18 },
+            { id: 3, number: "103", name: "Jashpur to Ranchi", origin: "Jashpur", destination: "Ranchi", distance: "280 km", duration: "5h 45m", frequency: "Every 120 min", stops: 15 },
+            { id: 4, number: "104", name: "Jashpur to Ambikapur", origin: "Jashpur", destination: "Ambikapur", distance: "120 km", duration: "3h 00m", frequency: "Every 45 min", stops: 8 },
+            { id: 5, number: "105", name: "Jashpur to Raigarh", origin: "Jashpur", destination: "Raigarh", distance: "150 km", duration: "3h 30m", frequency: "Every 90 min", stops: 10 },
+            { id: 6, number: "106", name: "Jashpur to Korba", origin: "Jashpur", destination: "Korba", distance: "190 km", duration: "4h 15m", frequency: "Every 120 min", stops: 11 },
+            { id: 7, number: "107", name: "Raipur to Ranchi via Jashpur", origin: "Raipur", destination: "Ranchi", distance: "420 km", duration: "8h 30m", frequency: "Daily", stops: 22 }
+        ];
+
+        // Translation data
+        const translations = {
+            en: {
+                hero_title: "Your Journey, Simplified",
+                hero_subtitle: "See every route, miss no bus. Your reliable public transport companion for seamless city travel",
+                search: "Search",
+                features_title: "Key Features",
+                features_subtitle: "Everything you need for smooth travel",
+                feature1_title: "Route Maps",
+                feature1_desc: "Detailed maps for all routes with stop locations",
+                feature2_title: "Real-time Tracking",
+                feature2_desc: "Live bus locations and arrival estimates",
+                feature3_title: "Book Tickets",
+                feature3_desc: "Secure online ticket booking system",
+                feature4_title: "Mobile Friendly",
+                feature4_desc: "Works perfectly on all devices",
+                nearby_title: "Nearby Bus Stops",
+                refresh: "Refresh",
+                distance: "km away",
+                map_title: "Interactive Route Map",
+                map_subtitle: "Explore all routes and stops",
+                show_all_routes: "Show All Routes",
+                find_nearby: "Find Nearby Stops",
+                routes_title: "Available Routes",
+                routes_subtitle: "Explore all bus routes in Chhattisgarh",
+                filter_route: "Filter by Route",
+                filter_origin: "Filter by Origin",
+                filter_destination: "Filter by Destination",
+                all_origins: "All Origins",
+                all_destinations: "All Destinations",
+                timetable_title: "Bus Timetable",
+                timetable_subtitle: "Schedule for Jashpur to Bilaspur (Route #101)",
+                departure: "Departure",
+                arrival: "Arrival",
+                duration: "Duration",
+                frequency: "Frequency",
+                fare: "Fare (₹)",
+                booking_title: "Book Your Ticket",
+                booking_subtitle: "Secure your seat in just a few steps",
+                step1: "Route & Date",
+                step2: "Passengers",
+                step3: "Payment",
+                step4: "Confirmation",
+                origin: "From",
+                destination: "To",
+                travel_date: "Travel Date",
+                passengers: "Passengers",
+                search_buses: "Search Buses",
+                admin_title: "Route Management",
+                admin_subtitle: "For bus operators and administrators",
+                manage_routes: "Manage Routes",
+                add_route: "Add New Route",
+                all_routes: "All Routes",
+                manage_stops: "Manage Stops",
+                route_number: "Route Number",
+                route_name: "Route Name",
+                add_stops: "Add Stops",
+                add_stop: "Add Stop",
+                save_route: "Save Route",
+                quick_links: "Quick Links",
+                home: "Home",
+                routes: "Routes",
+                timetable: "Timetable",
+                book_ticket: "Book Ticket",
+                contact_us: "Contact Us",
+                footer_desc: "Simplifying public transport in Chhattisgarh",
+                all_rights: "All rights reserved.",
+                view_details: "View Details",
+                book_now: "Book Now"
+            },
+            hi: {
+                hero_title: "आपकी यात्रा, आपके अनुसार",
+                hero_subtitle: "छत्तीसगढ़ में बस मार्ग, स्टॉप और समय खोजें",
+                search: "खोजें",
+                features_title: "मुख्य विशेषताएं",
+                features_subtitle: "सहज यात्रा के लिए आपको जो कुछ भी चाहिए",
+                feature1_title: "रूट मैप्स",
+                feature1_desc: "स्टॉप स्थानों के साथ सभी मार्गों के नक्शे",
+                feature2_title: "रीयल-टाइम ट्रैकिंग",
+                feature2_desc: "लाइव बस लोकेशन",
+                feature3_title: "टिकट बुक करें",
+                feature3_desc: "सुरक्षित ऑनलाइन टिकट बुकिंग सिस्टम",
+                feature4_title: "मोबाइल फ्रेंडली",
+                feature4_desc: "सभी उपकरणों पर पूरी तरह काम करता है",
+                nearby_title: "नजदीकी बस स्टॉप",
+                refresh: "रिफ्रेश करें",
+                distance: "KM दुरी",
+                map_title: "रूट मैप",
+                map_subtitle: "सभी मार्गों और स्टॉप्स",
+                show_all_routes: "सभी मार्ग दिखाएं",
+                find_nearby: "नजदीकी स्टॉप खोजें",
+                routes_title: "उपलब्ध मार्ग",
+                routes_subtitle: "सभी बस मार्गों का अन्वेषण करें",
+                filter_route: "मार्ग से खोजे",
+                filter_origin: "उद्गम से खोजे",
+                filter_destination: "आखरी पड़ाव से खोजें",
+                all_origins: "सभी उद्गम",
+                all_destinations: "सभी गंतव्य",
+                timetable_title: "बस समय सारणी",
+                timetable_subtitle: "जशपुर से बिलासपुर के लिए अनुसूची (मार्ग #101)",
+                departure: "प्रस्थान",
+                arrival: "आगमन",
+                duration: "अवधि",
+                frequency: "आवृत्ति",
+                fare: "किराया (₹)",
+                booking_title: "अपना टिकट बुक करें",
+                booking_subtitle: "कुछ ही चरणों में अपनी सीट सुरक्षित करें",
+                step1: "मार्ग और तारीख",
+                step2: "यात्री",
+                step3: "भुगतान",
+                step4: "पुष्टिकरण",
+                origin: "से",
+                destination: "तक",
+                travel_date: "यात्रा की तारीख",
+                passengers: "यात्री",
+                search_buses: "बसें खोजें",
+                admin_title: "मार्ग प्रबंधन",
+                admin_subtitle: "बस ऑपरेटरों और प्रशासकों के लिए",
+                manage_routes: "मार्ग प्रबंधित करें",
+                add_route: "नया मार्ग जोड़ें",
+                all_routes: "सभी मार्ग",
+                manage_stops: "स्टॉप प्रबंधित करें",
+                route_number: "मार्ग संख्या",
+                route_name: "मार्ग का नाम",
+                add_stops: "स्टॉप जोड़ें",
+                add_stop: "स्टॉप जोड़ें",
+                save_route: "मार्ग सहेजें",
+                quick_links: "त्वरित लिंक",
+                home: "होम",
+                routes: "मार्ग",
+                timetable: "समय सारणी",
+                book_ticket: "टिकट बुक करें",
+                contact_us: "संपर्क करें",
+                footer_desc: "छत्तीसगढ़ में सार्वजनिक परिवहन को सरल बनाना",
+                all_rights: "सर्वाधिकार सुरक्षित।",
+                view_details: "विवरण देखें",
+                book_now: "अभी बुक करें"
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'en';
+
+        // Initialize the map
+        function initMap() {
+            const map = L.map('mainMap').setView([22.9734, 81.6094], 8); // Center on Chhattisgarh
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Add markers for major cities
+            const cities = [
+                { name: "Jashpur", coords: [22.8998, 83.1396] },
+                { name: "Raipur", coords: [21.2514, 81.6296] },
+                { name: "Bilaspur", coords: [22.0735, 82.1564] },
+                { name: "Ranchi", coords: [23.3441, 85.3096] },
+                { name: "Ambikapur", coords: [23.1200, 83.1950] },
+                { name: "Raigarh", coords: [21.8974, 83.3960] },
+                { name: "Korba", coords: [22.3458, 82.6963] }
+            ];
+            
+            cities.forEach(city => {
+                L.marker(city.coords)
+                    .addTo(map)
+                    .bindPopup(city.name);
+            });
+            
+            // Add route lines (simplified for demo)
+            const routeCoordinates = [
+                [22.8998, 83.1396], // Jashpur
+                [22.3458, 82.6963], // Korba
+                [22.0735, 82.1564]  // Bilaspur
+            ];
+            
+            const routeLine = L.polyline(routeCoordinates, {
+                color: '#1a73e8',
+                weight: 4,
+                opacity: 0.7
+            }).addTo(map);
+            
+            // Fit the map to the route
+            map.fitBounds(routeLine.getBounds());
+            
+            // Add event listeners to map controls
+            document.getElementById('showAllRoutes').addEventListener('click', () => {
+                alert('Showing all routes on the map');
+            });
+            
+            document.getElementById('findNearby').addEventListener('click', () => {
+                alert('Finding nearby bus stops based on your location');
+            });
+        }
+
+        // Render routes
+        function renderRoutes() {
+            const routesGrid = document.querySelector('.routes-grid');
+            routesGrid.innerHTML = '';
+            
+            routes.forEach(route => {
+                const routeCard = document.createElement('div');
+                routeCard.className = 'route-card';
+                
+                routeCard.innerHTML = `
+                    <div class="route-header">
+                        <h3>${route.name}</h3>
+                        <div class="route-number">Route #${route.number}</div>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="info-item">
+                                <i class="fas fa-road"></i>
+                                <div>${route.distance}</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <div>${route.duration}</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>${route.stops} stops</div>
+                            </div>
+                        </div>
+                        <div class="route-stops">
+                            <p>
+                                <span>${route.origin}</span>
+                                <i class="fas fa-arrow-right"></i>
+                                <span>${route.destination}</span>
+                            </p>
+                        </div>
+                        <button data-i18n="view_details">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                    </div>
+                `;
+                
+                routesGrid.appendChild(routeCard);
+            });
+        }
+
+        // Render admin routes
+        function renderAdminRoutes() {
+            const adminRoutesGrid = document.querySelector('#routesTab .routes-grid');
+            if (!adminRoutesGrid) return;
+            
+            adminRoutesGrid.innerHTML = '';
+            
+            routes.forEach(route => {
+                const routeCard = document.createElement('div');
+                routeCard.className = 'route-card';
+                
+                routeCard.innerHTML = `
+                    <div class="route-header">
+                        <h3>${route.name}</h3>
+                        <div class="route-number">Route #${route.number}</div>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="info-item">
+                                <i class="fas fa-road"></i>
+                                <div>${route.distance}</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <div>${route.duration}</div>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>${route.stops} stops</div>
+                            </div>
+                        </div>
+                        <div class="passenger-actions">
+                            <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-outline" style="color: var(--warning-color);"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                `;
+                
+                adminRoutesGrid.appendChild(routeCard);
+            });
+        }
+
+        // Apply translations
+        function applyTranslations(lang) {
+            currentLanguage = lang;
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update language selector
+            document.getElementById('language').value = lang;
+        }
+
+        // Initialize the application
+        function initApp() {
+            // Initialize the map
+            initMap();
+            
+            // Render routes
+            renderRoutes();
+            renderAdminRoutes();
+            
+            // Set up language selector
+            const languageSelector = document.getElementById('language');
+            languageSelector.addEventListener('change', (e) => {
+                applyTranslations(e.target.value);
+            });
+            
+            // Set up dark mode toggle
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                body.setAttribute('data-theme', savedTheme);
+                updateDarkModeIcon(savedTheme);
+            }
+            
+            darkModeToggle.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateDarkModeIcon(newTheme);
+            });
+            
+            function updateDarkModeIcon(theme) {
+                const icon = darkModeToggle.querySelector('i');
+                if (theme === 'dark') {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+            
+            // Set up mobile navigation
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Set up tab navigation for admin section
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show corresponding tab content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}Tab`).classList.add('active');
+                });
+            });
+            
+            // Set up add stop button
+            const addStopBtn = document.getElementById('addStopBtn');
+            if (addStopBtn) {
+                addStopBtn.addEventListener('click', () => {
+                    const stopName = document.getElementById('stopName').value;
+                    const stopTime = document.getElementById('stopTime').value;
+                    
+                    if (stopName && stopTime) {
+                        const stopItem = document.createElement('div');
+                        stopItem.className = 'stop-item';
+                        stopItem.innerHTML = `
+                            <div class="stop-drag"><i class="fas fa-grip-lines"></i></div>
+                            <div>
+                                <strong>${stopName}</strong>
+                                <div>Arrival: ${stopTime}</div>
+                            </div>
+                            <div class="stop-actions">
+                                <button><i class="fas fa-times"></i></button>
+                            </div>
+                        `;
+                        
+                        document.getElementById('stopsContainer').appendChild(stopItem);
+                        
+                        // Clear inputs
+                        document.getElementById('stopName').value = '';
+                        document.getElementById('stopTime').value = '';
+                    }
+                });
+            }
+            
+            // Set current date for booking
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('travelDate').value = formattedDate;
+            document.getElementById('travelDate').min = formattedDate;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
